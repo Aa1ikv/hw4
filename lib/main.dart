@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'screens/akatsuki_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'models/akatsuki_member.dart'; // Импорт модели
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(AkatsukiMemberAdapter()); // Теперь адаптер доступен
+
+  await Hive.openBox<AkatsukiMember>('akatsuki_members');
+
   runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Акацуки',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: const AkatsukiScreen(),
-    );
-  }
 }

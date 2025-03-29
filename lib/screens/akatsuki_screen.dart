@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../widgets/member_card.dart';
-
+import '../models/akatsuki_member.dart';
 
 class AkatsukiScreen extends StatefulWidget {
   const AkatsukiScreen({super.key});
@@ -12,7 +12,7 @@ class AkatsukiScreen extends StatefulWidget {
 
 class _AkatsukiScreenState extends State<AkatsukiScreen> {
   final ApiService apiService = ApiService();
-  late Future<List<dynamic>> membersFuture;
+  late Future<List<AkatsukiMember>> membersFuture;
 
   @override
   void initState() {
@@ -23,8 +23,8 @@ class _AkatsukiScreenState extends State<AkatsukiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Члены Акацуки')),
-      body: FutureBuilder(
+      appBar: AppBar(title: const Text('Члены Акацуки (Hive)')),
+      body: FutureBuilder<List<AkatsukiMember>>(
         future: membersFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -43,8 +43,8 @@ class _AkatsukiScreenState extends State<AkatsukiScreen> {
               ),
               itemCount: members.length,
               itemBuilder: (context, index) => MemberCard(
-                name: members[index]['name'],
-                imageUrl: members[index]['images'][0],
+                name: members[index].name,
+                imageUrl: members[index].images[0],
               ),
             );
           }
