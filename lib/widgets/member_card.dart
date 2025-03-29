@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MemberCard extends StatelessWidget {
   final String name;
@@ -16,10 +17,11 @@ class MemberCard extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const Icon(Icons.error),
+              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
           Padding(
